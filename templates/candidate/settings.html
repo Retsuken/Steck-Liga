@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Настройки{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="card">
+    <h1>Приватность, согласие, ФСП ID</h1>
+    <form method="post" class="stack">
+      {% csrf_token %}
+      <label class="option"><input type="checkbox" name="consent_publish" {% if p.consent_publish %}checked{% endif %}> Согласие на публикацию профиля работодателям</label>
+      <label class="option"><input type="checkbox" name="publish_profile" {% if p.publish_profile %}checked{% endif %}> Показывать профиль в банке</label>
+      <label class="option"><input type="checkbox" name="show_fsp" {% if p.show_fsp %}checked{% endif %}> Показывать достижения ФСП</label>
+      <label class="option"><input type="checkbox" name="show_about" {% if p.show_about %}checked{% endif %}> Показывать «о себе»</label>
+      <label class="option"><input type="checkbox" name="show_stack" {% if p.show_stack %}checked{% endif %}> Показывать стек</label>
+      <label>ID участника ФСП (совместим с будущим Keycloak sub / username)</label>
+      <input name="fsp_id" value="{{ p.fsp_id }}" placeholder="FSP-xxxxx">
+      <p class="muted">Если истории нет — оставьте пустым. Это штатный сценарий, подбор работает по тесту.</p>
+      <button class="btn dark">Сохранить</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

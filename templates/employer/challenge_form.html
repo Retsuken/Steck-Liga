@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Задание{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>Короткое задание в пул</h1>
+    <p class="muted">Подходящим кандидатам система предложит его в регулярном цикле.</p>
+    <form method="post" class="stack">
+      {% csrf_token %}
+      <label>Заголовок</label><input name="title" required>
+      <label>Формулировка</label><textarea name="prompt" required></textarea>
+      <label>Специализация</label>
+      <select name="specialization">{% for code,label in specs %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select>
+      <label>Грейд (необязательно)</label>
+      <select name="grade"><option value="">любой</option>{% for code,label in grades %}<option value="{{ code }}">{{ label }}</option>{% endfor %}</select>
+      <button class="btn dark">Добавить</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

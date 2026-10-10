@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Опрос{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="card">
+    <h1>Опрос: отрасль, специализация, грейд</h1>
+    <p class="muted">Категория, которую увидит работодатель, берётся не из самоописания резюме, а из этого пути и теста.</p>
+    <form method="post" class="stack">
+      {% csrf_token %}
+      <label>Отрасль</label>
+      <select name="industry">{% for c,l in industries %}<option value="{{ c }}" {% if p.industry == c %}selected{% endif %}>{{ l }}</option>{% endfor %}</select>
+      <label>Специализация</label>
+      <select name="specialization">{% for c,l in specs %}<option value="{{ c }}" {% if p.specialization == c %}selected{% endif %}>{{ l }}</option>{% endfor %}</select>
+      <label>Предполагаемый грейд</label>
+      <select name="claimed_grade">{% for c,l in grades %}<option value="{{ c }}" {% if p.claimed_grade == c %}selected{% endif %}>{{ l }}</option>{% endfor %}</select>
+      <button class="btn dark">Сохранить и перейти к тесту</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

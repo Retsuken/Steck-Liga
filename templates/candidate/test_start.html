@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Тест{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="card">
+    <h1>Тест на грейд {{ grade }}</h1>
+    <p>8 заданий из банка вашей специализации. Часть параметризована — чужой ключ не подойдёт. 20 минут, порог 60%.</p>
+    <p>Смена подтверждённого грейда доступна через {{ p.days_until_grade_change }} дн. (если уже присвоен).</p>
+    <form method="post">{% csrf_token %}<button class="btn">Начать попытку</button></form>
+  </div>
+</div>
+{% endblock %}

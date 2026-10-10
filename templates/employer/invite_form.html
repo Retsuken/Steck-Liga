@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Приглашение{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>Пригласить {{ p.full_name }}</h1>
+    <p class="muted">Привязка к вакансии необязательна. Вилка зарплаты обязательна. Контакты кандидата откроются после принятия.</p>
+    <form method="post" class="stack">
+      {% csrf_token %}
+      <label>Описание предложения</label>
+      <textarea name="offer_text" required></textarea>
+      <label>Зарплата от, ₽</label><input type="number" name="salary_from" required>
+      <label>Зарплата до, ₽</label><input type="number" name="salary_to" required>
+      <label>Способ связи компании</label>
+      <input name="contact_method" value="{{ c.contact_email }} {{ c.phone }}">
+      <label>Потребность (необязательно)</label>
+      <select name="need"><option value="">—</option>{% for n in needs %}<option value="{{ n.pk }}">{{ n.title }}</option>{% endfor %}</select>
+      <label>Вакансия (необязательно)</label>
+      <select name="vacancy"><option value="">—</option>{% for v in vacancies %}<option value="{{ v.pk }}">{{ v.title }}</option>{% endfor %}</select>
+      <button class="btn">Отправить приглашение</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

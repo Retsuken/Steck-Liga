@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Отклики{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="card">
+    <h1>Мои отклики</h1>
+    <table class="table">
+      <tr><th>Вакансия</th><th>Компания</th><th>Вилка</th><th>Статус</th></tr>
+      {% for a in items %}
+        <tr>
+          <td>{{ a.vacancy.title }}</td>
+          <td>{{ a.vacancy.company.name }}</td>
+          <td>{{ a.vacancy.salary_range }}</td>
+          <td>{{ a.get_status_display }}</td>
+        </tr>
+      {% empty %}<tr><td colspan="4">Пока нет откликов</td></tr>{% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

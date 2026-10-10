@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Подтверждение email{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Подтвердите адрес</h1>
+  <p>Письмо уходит через консольный backend (для хакатона). Ссылка также показана здесь, чтобы эксперт мог пройти сценарий без SMTP.</p>
+  {% if email %}<p>Адрес: <b>{{ email }}</b></p>{% endif %}
+  {% if confirm_url %}
+    <p><a class="btn" href="{{ confirm_url }}">Подтвердить email</a></p>
+    <p class="muted">{{ confirm_url }}</p>
+  {% else %}
+    <p class="muted">Если вы закрыли окно регистрации, запросите ссылку у организаторов демо или создайте аккаунт заново.</p>
+  {% endif %}
+</div>
+{% endblock %}

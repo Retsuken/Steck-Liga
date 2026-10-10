@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Вакансии{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="card">
+    <h1>Открытые вакансии</h1>
+    <p class="muted">Дополнительный сценарий: можно откликнуться самостоятельно, пока нет приглашений.</p>
+    <form method="get" class="row">
+      <select name="specialization">
+        <option value="">Все специализации</option>
+        {% for c,l in specs %}<option value="{{ c }}">{{ l }}</option>{% endfor %}
+      </select>
+      <button class="btn">Фильтр</button>
+    </form>
+    {% for v in items %}
+      <hr class="soft">
+      <h3><a href="{% url 'candidate_vacancy' v.pk %}">{{ v.title }}</a></h3>
+      <p>{{ v.company.name }} · {{ v.salary_range }} · {{ v.get_specialization_display }} · {{ v.get_grade_display }}</p>
+    {% empty %}<p>Нет опубликованных вакансий.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

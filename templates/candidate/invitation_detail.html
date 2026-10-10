@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Приглашение{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>{{ inv.company.name }}</h1>
+  <p class="chip">{{ inv.get_status_display }}</p>
+  <p>{{ inv.offer_text }}</p>
+  <p><b>Вилка:</b> {{ inv.salary_range }}</p>
+  <p><b>Как связаться с компанией:</b> {{ inv.contact_method }}</p>
+  <p class="muted">Ваши телефон и email откроются работодателю только если примете приглашение.</p>
+  {% if inv.status == "viewed" or inv.status == "sent" %}
+  <form method="post" class="stack">
+    {% csrf_token %}
+    <textarea name="reply" placeholder="Короткий ответ (необязательно)"></textarea>
+    <div class="row">
+      <button class="btn ok" name="action" value="accept">Принять</button>
+      <button class="btn danger" name="action" value="decline">Отклонить</button>
+    </div>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ v.title }}{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>{{ v.title }}</h1>
+  <p>{{ v.company.name }} · {{ v.salary_range }}</p>
+  <p>{% for s in v.stack %}<span class="chip">{{ s }}</span>{% endfor %}</p>
+  <p>{{ v.description }}</p>
+  {% if applied %}
+    <p>Отклик уже отправлен, статус: {{ applied.get_status_display }}</p>
+  {% else %}
+    <form method="post" class="stack">
+      {% csrf_token %}
+      <textarea name="cover" placeholder="Сопроводительное"></textarea>
+      <button class="btn">Откликнуться</button>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}

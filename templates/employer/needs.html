@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Потребности{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>Описание потребности</h1>
+    <a class="btn" href="{% url 'employer_need_new' %}">Добавить</a>
+    {% for n in items %}
+      <hr class="soft">
+      <h3>{{ n.title }}</h3>
+      <p>{{ n.get_specialization_display }} · {{ n.get_grade_display }} · {{ n.salary_from }}–{{ n.salary_to }} ₽</p>
+      <a href="{% url 'employer_matches' n.pk %}">Подборка</a> ·
+      <a href="{% url 'employer_need_edit' n.pk %}">Изменить</a>
+    {% empty %}<p>Пока нет.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

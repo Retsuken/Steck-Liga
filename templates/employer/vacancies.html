@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Вакансии{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>Публикация вакансий</h1>
+    <a class="btn" href="{% url 'employer_vacancy_new' %}">Новая вакансия</a>
+    {% for v in items %}
+      <hr class="soft">
+      <h3>{{ v.title }}</h3>
+      <p>{{ v.salary_range }} · {% if v.is_published %}опубликована{% else %}черновик{% endif %}</p>
+      <a href="{% url 'employer_vacancy_edit' v.pk %}">Изменить</a> ·
+      <a href="{% url 'employer_vacancy_apps' v.pk %}">Отклики</a>
+    {% empty %}<p>Нет вакансий.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

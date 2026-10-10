@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Результат теста{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="card">
+    <h1>Результат: {{ attempt.score }}%</h1>
+    <p>{% if attempt.passed %}Зачёт заявленного грейда {{ attempt.target_grade }}.{% else %}Порог 60% не взят. Грейд принудительно не снижаем.{% endif %}</p>
+    <p>Текущая категория: <b>{{ p.category_label }}</b></p>
+    {% if info.can_try_lower and info.lower %}
+      <p><a class="btn" href="{% url 'candidate_test_start' %}?grade={{ info.lower }}">Пройти тест на грейд ниже ({{ info.lower }})</a></p>
+    {% endif %}
+    {% if info.can_try_higher and info.higher %}
+      <p>Уверенный зачёт (≥85%). <a class="btn" href="{% url 'candidate_test_start' %}?grade={{ info.higher }}">Тест на грейд выше</a></p>
+    {% endif %}
+    {% if attempt.passed and attempt.target_grade != p.confirmed_grade %}
+      <form method="post">{% csrf_token %}
+        <input type="hidden" name="confirm_grade" value="{{ attempt.target_grade }}">
+        <button class="btn ok">Зафиксировать грейд {{ attempt.target_grade }}</button>
+      </form>
+      <p class="muted">Не чаще раза в 90 дней. Осталось {{ p.days_until_grade_change }} дн. кулдауна, если смена уже была.</p>
+    {% endif %}
+    <h3>Разбор</h3>
+    {% for item in attempt.items.all %}
+      <p>{{ item.order|add:1 }}. {% if item.is_correct %}верно{% else %}ошибка{% endif %}</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

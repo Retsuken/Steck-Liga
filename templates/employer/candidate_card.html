@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Кандидат{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>{{ p.full_name }}</h1>
+    <p><span class="chip">{{ p.category_label }}</span> <span class="chip">тест {{ p.last_test_score }}%</span>
+      {% if p.has_fsp %}<span class="chip gold">ФСП {{ p.fsp_points }}</span>{% else %}<span class="chip">истории ФСП нет</span>{% endif %}
+    </p>
+    <p>{{ p.city }} · стаж {{ p.years_experience }} лет</p>
+    {% if p.show_stack %}{% for s in p.stack %}<span class="chip">{{ s }}</span>{% endfor %}{% endif %}
+    {% if p.show_about %}<p>{{ p.about }}</p>{% endif %}
+    <h3>Опыт</h3>
+    {% for e in p.experience.all %}<p>{{ e.role }} · {{ e.company }}</p>{% endfor %}
+    <h3>Достижения ФСП</h3>
+    {% if p.show_fsp %}
+      {% for a in p.achievements.all %}
+        <p>{{ a.year }} · {{ a.event_name }}{% if a.place %}, место {{ a.place }}{% endif %} · {{ a.rating_points }} очков</p>
+      {% empty %}<p class="muted">История участия в мероприятиях ФСП отсутствует — оценка по тесту и стеку.</p>{% endfor %}
+    {% else %}<p class="muted">Кандидат скрыл блок ФСП.</p>{% endif %}
+    <hr class="soft">
+    {% if visible %}
+      <h3>Контакты (открыты: приглашение принято или есть отклик)</h3>
+      <p>{{ p.user.email }} · {{ p.phone }}</p>
+    {% else %}
+      <p class="muted">Контакты скрыты до принятия приглашения или собственного отклика кандидата.</p>
+      <a class="btn" href="{% url 'employer_invite' p.pk %}">Отправить приглашение</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

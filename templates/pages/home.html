@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Платформа подбора{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="chip gold">Федерация спортивного программирования</p>
+  <h1>Работодатель находит категорию.<br>Кандидат не откликается вслепую.</h1>
+  <p>СтекЛига — не витрина чужих вакансий. Категория присваивается по опросу и тесту, внутри неё люди ранжируются по подтверждённому профилю и достижениям ФСП. Инициатива контакта — у работодателя: приглашение с вилкой зарплаты до первого сообщения.</p>
+  <div class="row">
+    <a class="btn light" href="{% url 'register' %}">Стать кандидатом</a>
+    <a class="btn ghost" href="{% url 'register' %}">Я работодатель</a>
+    <a class="btn ghost" href="{% url 'pitch' %}">Как устроены тест и подбор</a>
+  </div>
+</section>
+<div class="grid cols-3" style="margin-top:22px">
+  <article class="card">
+    <h3>Категория, а не ключевые слова</h3>
+    <p class="muted">Отрасль → специализация → заявленный грейд → уникальный тест. Резюме само по себе выдачу не формирует.</p>
+  </article>
+  <article class="card">
+    <h3>Приглашение, не отклик</h3>
+    <p class="muted">Компания пишет человеку из подборки: предложение, вилка в рублях, способ связи. Контакты кандидата закрыты до «принять».</p>
+  </article>
+  <article class="card">
+    <h3>ФСП как сигнал</h3>
+    <p class="muted">Достижения поднимают в категории. Нет истории ФСП — нормальный кейс: остаётся тест и стек.</p>
+  </article>
+</div>
+<div class="card" style="margin-top:18px">
+  <h3>Демо-доступ для жюри</h3>
+  <p>Кандидат: <b>anna@demo.ru</b> / <b>hackathon2026</b> (backend · middle, есть ФСП)</p>
+  <p>Работодатель: <b>hr@severcode.ru</b> / <b>hackathon2026</b> (уже есть потребность и приглашение)</p>
+  <p class="muted">Кандидат без ФСП: ivan@demo.ru · тот же пароль. Swagger: <a href="/api/docs/">/api/docs/</a></p>
+</div>
+{% endblock %}

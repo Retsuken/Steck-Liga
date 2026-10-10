@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Потребность{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>{% if need %}Редактирование{% else %}Новая потребность{% endif %}</h1>
+    <form method="post" class="stack">
+      {% csrf_token %}
+      <label>Кого ищем</label><input name="title" value="{% if need %}{{ need.title }}{% endif %}" required>
+      <label>Чем занимается команда</label><textarea name="team_about">{% if need %}{{ need.team_about }}{% endif %}</textarea>
+      <label>Описание</label><textarea name="description" required>{% if need %}{{ need.description }}{% endif %}</textarea>
+      <label>Специализация</label>
+      <select name="specialization">{% for code,label in specs %}<option value="{{ code }}" {% if need and need.specialization == code %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      <label>Грейд</label>
+      <select name="grade">{% for code,label in grades %}<option value="{{ code }}" {% if need and need.grade == code %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      <label>Стек через запятую</label><input name="stack" value="{% if need %}{{ need.stack|join:', ' }}{% endif %}">
+      <label>Зарплата от, ₽</label><input type="number" name="salary_from" value="{% if need %}{{ need.salary_from }}{% endif %}" required>
+      <label>Зарплата до, ₽</label><input type="number" name="salary_to" value="{% if need %}{{ need.salary_to }}{% endif %}" required>
+      <button class="btn dark">Сохранить и открыть подборку</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

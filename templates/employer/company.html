@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Компания{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>Профиль компании</h1>
+    <form method="post" class="stack">
+      {% csrf_token %}
+      <label>Название</label><input name="name" value="{{ c.name }}" required>
+      <label>Направление</label>
+      <select name="industry">{% for code,label in industries %}<option value="{{ code }}" {% if c.industry == code %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      <label>Город</label><input name="city" value="{{ c.city }}">
+      <label>Сайт</label><input name="site" value="{{ c.site }}">
+      <label>Телефон</label><input name="phone" value="{{ c.phone }}">
+      <label>Контактный email</label><input name="contact_email" value="{{ c.contact_email }}">
+      <label>Описание</label><textarea name="description">{{ c.description }}</textarea>
+      <button class="btn dark">Сохранить</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

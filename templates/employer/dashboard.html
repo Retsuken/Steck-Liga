@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Кабинет работодателя{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="grid">
+    <div class="card">
+      <h1>Вы находите категорию и выходите на человека</h1>
+      <p class="muted">Опишите потребность — система соберёт подборку по подтверждённым категориям, а не по ключевым словам резюме.</p>
+      <a class="btn" href="{% url 'employer_need_new' %}">Новая потребность</a>
+      <a class="btn dark" href="{% url 'employer_bank' %}">Открыть банк</a>
+    </div>
+    <div class="grid cols-2">
+      <div class="card">
+        <h3>Потребности</h3>
+        {% for n in needs %}<p><a href="{% url 'employer_matches' n.pk %}">{{ n.title }}</a></p>{% empty %}<p class="muted">Создайте первую.</p>{% endfor %}
+      </div>
+      <div class="card">
+        <h3>Приглашения</h3>
+        {% for i in invites %}<p>{{ i.candidate }} · {{ i.get_status_display }} · {{ i.salary_range }}</p>{% empty %}<p class="muted">Ещё не отправляли.</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

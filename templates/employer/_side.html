@@ -1,0 +1,11 @@
+<aside class="side card">
+  <p><b>{{ c.name|default:"Компания" }}</b></p>
+  <a href="{% url 'employer_dashboard' %}">Обзор</a>
+  <a href="{% url 'employer_company' %}">Профиль компании</a>
+  <a href="{% url 'employer_needs' %}">Потребности</a>
+  <a href="{% url 'employer_bank' %}">Банк кандидатов</a>
+  <a href="{% url 'employer_invitations' %}">Исходящие приглашения</a>
+  <a href="{% url 'employer_shortlists' %}">Сохранённые подборки</a>
+  <a href="{% url 'employer_vacancies' %}">Вакансии</a>
+  <a href="{% url 'employer_challenge_new' %}">Короткое задание</a>
+</aside>

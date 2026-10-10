@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Приглашения{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="card">
+    <h1>Входящие приглашения</h1>
+    <p class="muted">Вилка зарплаты видна до начала общения — требование ТЗ.</p>
+    <table class="table">
+      <tr><th>Компания</th><th>Предложение</th><th>Зарплата</th><th>Статус</th></tr>
+      {% for i in items %}
+        <tr>
+          <td><a href="{% url 'candidate_invitation' i.pk %}">{{ i.company.name }}</a></td>
+          <td>{{ i.offer_text|truncatechars:80 }}</td>
+          <td>{{ i.salary_range }}</td>
+          <td>{{ i.get_status_display }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4" class="muted">Пока нет приглашений. Можно откликнуться на открытые вакансии.</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

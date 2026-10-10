@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Кабинет кандидата{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="grid">
+    <div class="grid cols-3">
+      <div class="card"><div class="muted">Категория</div><div class="kpi" style="font-size:20px">{{ p.category_label }}</div></div>
+      <div class="card"><div class="muted">Тест</div><div class="kpi">{{ p.last_test_score }}%</div></div>
+      <div class="card"><div class="muted">ФСП</div><div class="kpi">{% if p.has_fsp %}{{ p.fsp_points }}{% else %}нет{% endif %}</div></div>
+    </div>
+    <div class="card">
+      <h3>Что дальше</h3>
+      {% if not p.confirmed_grade %}
+        <p>Пройдите <a href="{% url 'candidate_survey' %}">опрос</a> и тест — без категории работодатели вас не увидят.</p>
+      {% else %}
+        <p>Работодатели сами находят вашу категорию и присылают приглашения с вилкой зарплаты.</p>
+      {% endif %}
+      <a class="btn" href="{% url 'candidate_pdf' %}">Скачать PDF-профиль</a>
+    </div>
+    <div class="card">
+      <h3>Последние приглашения</h3>
+      {% for i in invites %}
+        <p><a href="{% url 'candidate_invitation' i.pk %}">{{ i.company.name }}</a> · {{ i.salary_range }} · {{ i.get_status_display }}</p>
+      {% empty %}<p class="muted">Пока пусто — это нормально на старте.</p>{% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

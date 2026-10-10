@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Исходящие{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>Статусы приглашений</h1>
+    <table class="table">
+      <tr><th>Кандидат</th><th>Вилка</th><th>Статус</th><th>Контакт</th></tr>
+      {% for i in items %}
+        <tr>
+          <td><a href="{% url 'employer_candidate' i.candidate_id %}">{{ i.candidate }}</a></td>
+          <td>{{ i.salary_range }}</td>
+          <td>{{ i.get_status_display }}</td>
+          <td>{% if i.status == "accepted" %}{{ i.candidate.user.email }} · {{ i.candidate.phone }}{% else %}скрыто до принятия{% endif %}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

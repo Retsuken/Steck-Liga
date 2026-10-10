@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}PDF резюме{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="grid">
+    <div class="card">
+      <h1>Загрузка PDF с автораспознаванием</h1>
+      <form method="post" enctype="multipart/form-data" class="stack">
+        {% csrf_token %}
+        <input type="file" name="pdf" accept="application/pdf">
+        <button class="btn">Разобрать PDF</button>
+      </form>
+      <p class="muted">Извлекаются ФИО, контакты, пересечение со словарём стека и стаж.</p>
+    </div>
+    <div class="card">
+      <h3>Опыт</h3>
+      {% for e in p.experience.all %}
+        <p><b>{{ e.role }}</b> · {{ e.company }} · {{ e.years }} лет<br><span class="muted">{{ e.description }}</span></p>
+      {% endfor %}
+      <form method="post" class="stack">
+        {% csrf_token %}
+        <input name="company" placeholder="Компания" required>
+        <input name="role" placeholder="Роль" required>
+        <input name="years" placeholder="Лет">
+        <textarea name="description" placeholder="Чем занимались"></textarea>
+        <button class="btn dark">Добавить</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

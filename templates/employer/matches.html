@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Подборка{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="grid">
+    <div class="card">
+      <h1>Подборка: {{ need.title }}</h1>
+      <p class="muted">Категория запроса: {{ need.get_specialization_display }} · {{ need.get_grade_display }}. Уточнение фильтров не удаляет сохранённую подборку.</p>
+      <form method="get" class="row">
+        <select name="specialization">
+          <option value="">Специализация (как в потребности)</option>
+          {% for code,label in specs %}<option value="{{ code }}" {% if filters.specialization == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+        <select name="grade">
+          <option value="">Грейд</option>
+          {% for code,label in grades %}<option value="{{ code }}" {% if filters.grade == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+        <input name="stack" placeholder="стек" value="{{ filters.stack }}">
+        <label class="option"><input type="checkbox" name="fsp_only" value="1" {% if filters.fsp_only %}checked{% endif %}> только с ФСП</label>
+        <button class="btn">Уточнить</button>
+      </form>
+      <form method="post" class="row" style="margin-top:10px">
+        {% csrf_token %}
+        <input name="title" placeholder="Имя подборки">
+        <button class="btn dark" name="save_shortlist" value="1">Сохранить подборку</button>
+      </form>
+    </div>
+    {% for row in ranked %}
+      <article class="card">
+        <div class="row" style="justify-content:space-between">
+          <h3><a href="{% url 'employer_candidate' row.profile.pk %}">{{ row.profile.full_name }}</a></h3>
+          <span class="score">{{ row.score }}</span>
+        </div>
+        <p><span class="chip">{{ row.category }}</span>
+          {% if row.profile.has_fsp %}<span class="chip gold">ФСП {{ row.profile.fsp_points }}</span>{% else %}<span class="chip">без ФСП</span>{% endif %}
+        </p>
+        {% for r in row.reasons %}<div class="reason">{{ r }}</div>{% endfor %}
+        <a class="btn" href="{% url 'employer_invite' row.profile.pk %}">Пригласить</a>
+      </article>
+    {% empty %}
+      <div class="card">Нет кандидатов с подтверждённой категорией под этот запрос.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

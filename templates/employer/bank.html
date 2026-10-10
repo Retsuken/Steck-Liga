@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Банк кандидатов{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="grid">
+    <div class="card">
+      <h1>Банк кандидатов</h1>
+      <form method="get" class="row">
+        <select name="specialization">
+          <option value="">Специализация</option>
+          {% for code,label in specs %}<option value="{{ code }}" {% if filters.specialization == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+        <select name="grade">
+          <option value="">Грейд</option>
+          {% for code,label in grades %}<option value="{{ code }}" {% if filters.grade == code %}selected{% endif %}>{{ label }}</option>{% endfor %}
+        </select>
+        <input name="stack" value="{{ filters.stack }}" placeholder="стек">
+        <label class="option"><input type="checkbox" name="fsp_only" value="1" {% if filters.fsp_only %}checked{% endif %}> ФСП</label>
+        <button class="btn">Фильтр</button>
+      </form>
+    </div>
+    {% for row in ranked %}
+      <article class="card">
+        <h3><a href="{% url 'employer_candidate' row.profile.pk %}">{{ row.profile.full_name }}</a> <span class="score">{{ row.score }}</span></h3>
+        <p><span class="chip">{{ row.category }}</span> {% for s in row.profile.stack %}<span class="chip">{{ s }}</span>{% endfor %}</p>
+        {% for r in row.reasons %}<div class="reason">{{ r }}</div>{% endfor %}
+        <a class="btn" href="{% url 'employer_invite' row.profile.pk %}">Пригласить</a>
+      </article>
+    {% empty %}<div class="card">Пусто</div>{% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Прохождение теста{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Попытка #{{ attempt.id }} · {{ attempt.target_grade }}</h1>
+  <p class="muted">Не обновляйте страницу слишком долго — лимит 20 минут с момента старта.</p>
+  <form method="post">
+    {% csrf_token %}
+    {% for item in items %}
+      <div class="q">
+        <p><b>{{ item.order|add:1 }}.</b> {{ item.rendered_stem }}</p>
+        {% if item.rendered_options %}
+          {% for opt in item.rendered_options %}
+            <label class="option"><input type="radio" name="q_{{ item.id }}" value="{{ opt.key }}" required> {{ opt.text }}</label>
+          {% endfor %}
+        {% else %}
+          <input name="q_{{ item.id }}" placeholder="Ответ">
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button class="btn dark">Отправить</button>
+  </form>
+</div>
+{% endblock %}

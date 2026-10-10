@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Подборки{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>Сохранённые подборки</h1>
+    <p class="muted">Фильтры на странице поиска больше не затирают этот снимок.</p>
+    {% for s in items %}
+      <p><b>{{ s.title }}</b> · {{ s.created_at }} · кандидатов: {{ s.candidate_ids|length }}
+        {% if s.need %}· <a href="{% url 'employer_matches' s.need_id %}">к потребности</a>{% endif %}
+      </p>
+    {% empty %}<p>Пока нет сохранённых подборок.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

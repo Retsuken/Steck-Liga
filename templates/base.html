@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}СтекЛига{% endblock %} · ФСП</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{% url 'home' %}">
+      <span class="mark">ФСП</span>
+      <span>СтекЛига</span>
+    </a>
+    <nav class="nav">
+      {% if user.is_authenticated %}
+        {% if user.is_candidate %}
+          <a href="{% url 'candidate_dashboard' %}">Кабинет</a>
+          <a href="{% url 'candidate_invitations' %}">Приглашения{% if invite_count %}<span class="badge">{{ invite_count }}</span>{% endif %}</a>
+          <a href="{% url 'candidate_vacancies' %}">Вакансии</a>
+          <a href="{% url 'candidate_assignments' %}">Задания{% if assign_count %}<span class="badge">{{ assign_count }}</span>{% endif %}</a>
+        {% elif user.is_employer %}
+          <a href="{% url 'employer_dashboard' %}">Кабинет</a>
+          <a href="{% url 'employer_bank' %}">Банк кандидатов</a>
+          <a href="{% url 'employer_needs' %}">Потребности</a>
+          <a href="{% url 'employer_vacancies' %}">Вакансии</a>
+        {% endif %}
+        <span class="muted" style="color:#9db0c9;font-size:13px">{{ user.email }}</span>
+        <a href="{% url 'logout' %}">Выйти</a>
+      {% else %}
+        <a href="{% url 'pitch' %}">О механике</a>
+        <a href="{% url 'login' %}">Войти</a>
+        <a href="{% url 'register' %}">Регистрация</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main class="wrap">
+    {% if messages %}
+      <ul class="messages">
+        {% for m in messages %}<li class="{{ m.tags }}">{{ m }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  <div class="footer">СтекЛига · платформа подбора ИТ-специалистов с верифицированным профилем ФСП · 152-ФЗ</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Задание{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>{{ item.challenge.title }}</h1>
+  <p>{{ item.challenge.prompt }}</p>
+  <form method="post" class="stack">
+    {% csrf_token %}
+    <label>Подход</label>
+    <textarea name="approach" required></textarea>
+    <label>Решение / набросок</label>
+    <textarea name="solution"></textarea>
+    <button class="btn dark">Отправить</button>
+  </form>
+</div>
+{% endblock %}

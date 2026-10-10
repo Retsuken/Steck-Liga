@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Задания{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="card">
+    <h1>Регулярные короткие задания</h1>
+    <p class="muted">Система предлагает задачу от работодателя примерно раз в 7 дней. Решение повышает свежесть профиля.</p>
+    {% for a in items %}
+      <hr class="soft">
+      <h3>{{ a.challenge.title }}</h3>
+      <p class="muted">{{ a.challenge.company.name }}</p>
+      <p>{{ a.challenge.prompt }}</p>
+      {% if a.submitted_at %}
+        <p class="chip green">Сдано · свежесть +{{ a.freshness_delta }}</p>
+      {% else %}
+        <a class="btn" href="{% url 'candidate_assignment' a.pk %}">Решить или описать подход</a>
+      {% endif %}
+    {% empty %}<p>Свободных заданий пока нет.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Вакансия{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>{% if v %}Редактирование{% else %}Новая вакансия{% endif %}</h1>
+    <form method="post" class="stack">
+      {% csrf_token %}
+      <label>Название</label><input name="title" value="{% if v %}{{ v.title }}{% endif %}" required>
+      <label>Описание</label><textarea name="description" required>{% if v %}{{ v.description }}{% endif %}</textarea>
+      <label>Специализация</label>
+      <select name="specialization">{% for code,label in specs %}<option value="{{ code }}" {% if v and v.specialization == code %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      <label>Грейд</label>
+      <select name="grade">{% for code,label in grades %}<option value="{{ code }}" {% if v and v.grade == code %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+      <label>Стек</label><input name="stack" value="{% if v %}{{ v.stack|join:', ' }}{% endif %}">
+      <label>От, ₽</label><input type="number" name="salary_from" value="{% if v %}{{ v.salary_from }}{% endif %}" required>
+      <label>До, ₽</label><input type="number" name="salary_to" value="{% if v %}{{ v.salary_to }}{% endif %}" required>
+      <label>Город</label><input name="city" value="{% if v %}{{ v.city }}{% endif %}">
+      <label class="option"><input type="checkbox" name="remote" {% if not v or v.remote %}checked{% endif %}> удалёнка</label>
+      <label class="option"><input type="checkbox" name="is_published" {% if not v or v.is_published %}checked{% endif %}> опубликовать</label>
+      <button class="btn dark">Сохранить</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

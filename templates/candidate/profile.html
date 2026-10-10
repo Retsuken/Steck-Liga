@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Профиль{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="card">
+    <h1>Профиль и резюме</h1>
+    <form method="post" class="stack">
+      {% csrf_token %}
+      <label>ФИО</label><input name="full_name" value="{{ p.full_name }}">
+      <label>Телефон (виден работодателю только после принятия приглашения)</label>
+      <input name="phone" value="{{ p.phone }}">
+      <label>Город</label><input name="city" value="{{ p.city }}">
+      <label>Стаж, лет</label><input name="years_experience" value="{{ p.years_experience }}">
+      <label>Стек через запятую</label>
+      <input name="stack" value="{{ p.stack|join:', ' }}">
+      <p class="muted">Подсказки: {{ stack_catalog|slice:':12'|join:', ' }}…</p>
+      <label>Софт-скиллы через запятую</label>
+      <input name="soft_skills" value="{{ p.soft_skills|join:', ' }}">
+      <label>О себе / роли</label><textarea name="about">{{ p.about }}</textarea>
+      <button class="btn dark">Сохранить</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

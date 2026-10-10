@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Отклики{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "employer/_side.html" %}
+  <div class="card">
+    <h1>Отклики на «{{ v.title }}»</h1>
+    {% for a in apps %}
+      <hr class="soft">
+      <p><a href="{% url 'employer_candidate' a.candidate_id %}">{{ a.candidate }}</a> · {{ a.get_status_display }}</p>
+      <p>{{ a.cover_letter }}</p>
+      <p>Контакт: {{ a.candidate.user.email }} · {{ a.candidate.phone }}</p>
+      {% if a.status == "sent" or a.status == "viewed" %}
+      <form method="post" class="row">
+        {% csrf_token %}
+        <input type="hidden" name="app_id" value="{{ a.pk }}">
+        <button class="btn ok" name="action" value="accept">Принять</button>
+        <button class="btn danger" name="action" value="reject">Отклонить</button>
+      </form>
+      {% endif %}
+    {% empty %}<p>Откликов нет.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

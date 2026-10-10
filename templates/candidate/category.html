@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Категория{% endblock %}
+{% block content %}
+<div class="layout">
+  {% include "candidate/_side.html" %}
+  <div class="card">
+    <h1>{{ p.category_label }}</h1>
+    <p>Отрасль: {{ p.get_industry_display }} · заявлено: {{ p.get_claimed_grade_display }} · подтверждено: {{ p.get_confirmed_grade_display }}</p>
+    <p>Кулдаун смены грейда: {{ p.days_until_grade_change }} дн.</p>
+    <h3>История опроса и тестов</h3>
+    <table class="table">
+      <tr><th>Когда</th><th>С</th><th>На</th><th>Балл</th><th>Комментарий</th></tr>
+      {% for h in p.grade_history.all %}
+        <tr><td>{{ h.created_at }}</td><td>{{ h.from_grade|default:"—" }}</td><td>{{ h.to_grade }}</td><td>{{ h.score }}</td><td>{{ h.note }}</td></tr>
+      {% endfor %}
+    </table>
+    <h3>Попытки</h3>
+    {% for a in p.attempts.all %}
+      <p>{{ a.started_at }} · {{ a.target_grade }} · {{ a.score }}% · {% if a.passed %}зачёт{% else %}не зачёт{% endif %}</p>
+    {% endfor %}
+    <p><a class="btn" href="{% url 'candidate_test_start' %}?grade={{ p.confirmed_grade }}">Пересдать текущий</a>
+       <a class="btn ghost dark" href="{% url 'candidate_survey' %}">Изменить специализацию (опрос)</a></p>
+  </div>
+</div>
+{% endblock %}
